@@ -1,0 +1,77 @@
+# Obsidian Vault 访问规则
+# 用于管理 AI 对 Obsidian vault 的读写权限
+
+# Vault 路径（如果使用 obsidian-cli，会自动获取）
+vault_path: ~/ObsidianVault/AI-Memory
+
+# 权限规则定义
+permissions:
+  # 只读目录（AI 不应修改）
+  readonly:
+    - "3-Templates/**"           # 模板文件
+    - "5-Personal/**"            # 个人笔记
+    - "README.md"                # Vault 说明
+    - ".obsidian/**"             # Obsidian 配置（不应修改）
+
+  # 可读写目录
+  readwrite:
+    - "0-Inbox/**"               # 收件箱 - 对话日志、新闻简报
+    - "1-Topics/**"              # 主题知识库
+    - "4-Periodic/**"            # 周期性笔记
+    - "CLAUDE.md"                # AI 记忆配置
+
+  # 受限操作（需要用户明确授权）
+  restricted:
+    delete:                      # 删除任何文件
+      - "**"
+    move:                        # 移动文件（会破坏 wikilink）
+      - "**"
+    create_template:             # 创建新模板
+      - "3-Templates/**"
+
+# 文件命名规则
+naming_conventions:
+  session_logs: "YYYY-MM-DD-主题.md"
+  ai_briefs: "YYYY-MM-DD.md"
+  topic_notes: "主题名.md"
+  monthly_summary: "YYYY-MM.md"
+
+# 目录结构约定
+directory_structure:
+  - name: "0-Inbox"
+    subdirs:
+      - "Session-Logs"
+      - "AI-Briefs"
+        subdirs:
+          - "YYYY"  # 年份子目录
+            subdirs:
+              - "MM"   # 月份子目录
+  - name: "1-Topics"
+    subdirs:
+      - "AI"
+      - "Hardware"
+      - "Robotics"
+  - name: "3-Templates"
+  - name: "4-Periodic"
+    subdirs:
+      - "Monthly"
+  - name: "5-Personal"
+
+# 安全检查清单
+safety_checks:
+  - "检查目标路径是否在可写权限内"
+  - "确认临时文件与原文件的差异"
+  - "备份原文件（可选）"
+  - "用户确认后才执行替换"
+
+# obsidian-cli 使用场景
+obsidian_cli_usage:
+  enabled: true
+  use_cases:
+    - "获取 vault 路径: obsidian-cli print-default --path-only"
+    - "搜索笔记: obsidian-cli search 'query'"
+    - "搜索内容: obsidian-cli search-content 'query'"
+    - "移动文件（自动更新 wikilinks）: obsidian-cli move old new"
+  notes: |
+    核心读写操作直接使用文件工具（read/write），不通过 obsidian-cli
+    obsidian-cli 仅用于路径解析、搜索和安全的文件移动

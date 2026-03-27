@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "skills": {
+    "searxng": {
+      "version": "1.0.3",
+      "installedAt": 1772692921716
+    },
+    "find-skills": {
+      "version": "0.1.0",
+      "installedAt": 1772701207406
+    },
+    "skill-vetter": {
+      "version": "1.0.0",
+      "installedAt": 1772701213428
+    },
+    "agent-browser": {
+      "version": "0.2.0",
+      "installedAt": 1772701268218
+    },
+    "self-improving-agent": {
+      "version": "1.0.11",
+      "installedAt": 1772701278822
+    },
+    "proactive-agent": {
+      "version": "3.1.0",
+      "installedAt": 1772701443637
+    },
+    "openclaw-tavily-search": {
+      "version": "0.1.0",
+      "installedAt": 1773328886185
+    },
+    "youtube-transcript": {
+      "version": "1.0.1",
+      "installedAt": 1773329775326
+    },
+    "summarize": {
+      "version": "1.0.0",
+      "installedAt": 1773330142778
+    },
+    "obsidian": {
+      "version": "1.0.0",
+      "installedAt": 1773330608968
+    },
+    "feishu-doc-manager": {
+      "version": "1.0.0",
+      "installedAt": 1773395930450
+    },
+    "eastmoney-financial-data": {
+      "version": "1.0.2",
+      "installedAt": 1773649447233
+    },
+    "akshare-stock": {
+      "version": "1.0.1",
+      "installedAt": 1773654789811
+    },
+    "stock-monitor": {
+      "version": "1.3.0",
+      "installedAt": 1773655635584
+    },
+    "multi-search-engine": {
+      "version": "2.0.1",
+      "installedAt": 1773655811230
+    },
+    "news-aggregator": {
+      "version": "1.0.3",
+      "installedAt": 1773656176406
+    },
+    "qveris": {
+      "version": "0.1.0",
+      "installedAt": 1774573488026
+    }
+  }
+}
