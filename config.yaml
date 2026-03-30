@@ -1,0 +1,56 @@
+# WorldReader 配置文件
+
+# 缓存配置
+cache:
+  enabled: true
+  ttl: 86400  # 缓存过期时间（秒），默认24小时
+  directory: "./cache"
+
+# 知识库配置
+knowledge_base:
+  directory: "./knowledge_base"
+  format: "markdown"
+  auto_save: true
+
+# 内容获取配置
+content_fetcher:
+  timeout: 30  # 请求超时时间（秒）
+  retry_times: 3  # 重试次数
+  retry_delay: 2  # 重试延迟（秒）
+
+  # RSSHub配置
+  rsshub:
+    base_url: "https://rsshub.app"
+    enabled: true
+
+  # GitHub配置
+  github:
+    api_token: "${GITHUB_TOKEN}"  # 从环境变量读取
+    enabled: true
+    base_url: "https://api.github.com"
+
+  # 飞书配置
+  feishu:
+    enabled: true
+    api_timeout: 30
+
+# 质量评分配置
+quality_scorer:
+  weights:
+    completeness: 0.3   # 内容完整性
+    accuracy: 0.25      # 信息准确性
+    readability: 0.2    # 可读性
+    originality: 0.15   # 原创性
+    timeliness: 0.1     # 时效性
+
+  # 评分阈值
+  thresholds:
+    high_quality: 80    # 高质量阈值
+    medium_quality: 60  # 中等质量阈值
+    low_quality: 0      # 低质量阈值
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+  file: "./worldreader.log"

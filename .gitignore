@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.py[cod]
@@ -41,3 +42,13 @@ quality_scores/
 # OS
 .DS_Store
 Thumbs.db
+=======
+# 忽略所有 .log 文件
+*.log
+
+# 忽略临时产生 文件
+cache/
+knowledge_base/
+quality_scores/
+*/__pycache__
+>>>>>>> 6599d9dcee7fb48fe604b1fbee302e087f1998d5
