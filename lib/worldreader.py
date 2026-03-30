@@ -14,6 +14,12 @@ try:
     from .fetchers.github_fetcher import GitHubFetcher
     from .generators.article_generator import ArticleGenerator
     from .scorers.quality_scorer import QualityScorer
+    from .utils import (
+        load_json,
+        save_json,
+        ensure_directory,
+        generate_id,
+    )
 except ImportError:
     # 支持直接运行
     from parsers.subscription_parser import SubscriptionParser
@@ -23,12 +29,12 @@ except ImportError:
     from fetchers.github_fetcher import GitHubFetcher
     from generators.article_generator import ArticleGenerator
     from scorers.quality_scorer import QualityScorer
-from ..utils import (
-    load_json,
-    save_json,
-    ensure_directory,
-    generate_id,
-)
+    from utils import (
+        load_json,
+        save_json,
+        ensure_directory,
+        generate_id,
+    )
 
 
 class WorldReader:
@@ -90,7 +96,7 @@ class WorldReader:
         """
         # 如果没有提供内容，尝试获取
         if content is None:
-            content = self._fetch_subscription_content(subscription_doc_url)
+            content = self.fetch_subscription_content(subscription_doc_url)
 
         if not content:
             return {
@@ -107,7 +113,7 @@ class WorldReader:
 
         return result
 
-    def _fetch_subscription_content(self, doc_url: str) -> Optional[str]:
+    def fetch_subscription_content(self, doc_url: str) -> Optional[str]:
         """
         获取订阅清单文档内容
 

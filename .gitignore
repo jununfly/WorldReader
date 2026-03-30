@@ -1,0 +1,8 @@
+# 忽略所有 .log 文件
+*.log
+
+# 忽略临时产生 文件
+cache/
+knowledge_base/
+quality_scores/
+*/__pycache__

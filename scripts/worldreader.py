@@ -22,18 +22,25 @@ def parse_subscription(args):
     # 获取文档内容
     content = None
     if args.content:
-        # 从文件读取
-        with open(args.content, 'r', encoding='utf-8') as f:
-            content = f.read()
+        try:
+            with open(args.content, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except (OSError, UnicodeDecodeError) as e:
+            print(f"错误: 无法读取文件 {args.content}: {e}")
+            sys.exit(1)
     elif args.doc_url:
-        # 尝试从 URL 获取
-        content = reader._fetch_subscription_content(args.doc_url)
+        content = reader.fetch_subscription_content(args.doc_url)
     else:
         print("错误: 必须指定 --doc-url 或 --content")
         sys.exit(1)
 
+    if not content:
+        print("错误: 获取订阅清单内容为空")
+        sys.exit(1)
+
     # 解析订阅清单
-    result = reader.parse_subscription(args.doc_url, content)
+    doc_url = args.doc_url or ""
+    result = reader.parse_subscription(doc_url, content)
 
     # 输出结果
     if args.json:
@@ -47,14 +54,18 @@ def fetch_content(args):
     """获取信源内容"""
     reader = WorldReader(config_path=args.config)
 
-    articles = reader.fetch_source_content(args.source_id, args.date)
+    try:
+        articles = reader.fetch_source_content(args.source_id, args.date)
+    except Exception as e:
+        print(f"错误: 获取信源内容失败: {e}")
+        sys.exit(1)
 
     if args.json:
         print(json.dumps(articles, ensure_ascii=False, indent=2))
     else:
         print(f"获取到 {len(articles)} 篇文章:")
         for article in articles:
-            print(f"- {article['title']}")
+            print(f"- {article.get('title', '无标题')}")
 
 
 def score_article(args):
@@ -68,31 +79,39 @@ def score_article(args):
         sys.exit(1)
 
     # 评分
-    score = reader.score_article(article)
+    try:
+        score = reader.score_article(article)
+    except Exception as e:
+        print(f"错误: 文章评分失败: {e}")
+        sys.exit(1)
 
     # 输出结果
     if args.json:
         print(json.dumps(score, ensure_ascii=False, indent=2))
     else:
-        print(f"综合评分: {score['overall']}")
-        print(f"质量等级: {score['level']}")
-        print("\n各维度评分:")
-        for dim, value in score['dimensions'].items():
-            print(f"  - {dim}: {value}")
+        print(f"综合评分: {score.get('overall', 'N/A')}")
+        print(f"质量等级: {score.get('level', 'N/A')}")
 
-        if score['report'].get('strengths'):
+        dimensions = score.get('dimensions', {})
+        if dimensions:
+            print("\n各维度评分:")
+            for dim, value in dimensions.items():
+                print(f"  - {dim}: {value}")
+
+        report = score.get('report', {})
+        if report.get('strengths'):
             print("\n优点:")
-            for strength in score['report']['strengths']:
+            for strength in report['strengths']:
                 print(f"  - {strength}")
 
-        if score['report'].get('weaknesses'):
+        if report.get('weaknesses'):
             print("\n不足:")
-            for weakness in score['report']['weaknesses']:
+            for weakness in report['weaknesses']:
                 print(f"  - {weakness}")
 
-        if score['report'].get('suggestions'):
+        if report.get('suggestions'):
             print("\n建议:")
-            for suggestion in score['report']['suggestions']:
+            for suggestion in report['suggestions']:
                 print(f"  - {suggestion}")
 
 
@@ -104,15 +123,27 @@ def get_daily_articles(args):
     if args.doc_url or args.content:
         content = None
         if args.content:
-            with open(args.content, 'r', encoding='utf-8') as f:
-                content = f.read()
+            try:
+                with open(args.content, 'r', encoding='utf-8') as f:
+                    content = f.read()
+            except (OSError, UnicodeDecodeError) as e:
+                print(f"错误: 无法读取文件 {args.content}: {e}")
+                sys.exit(1)
         else:
-            content = reader._fetch_subscription_content(args.doc_url)
+            content = reader.fetch_subscription_content(args.doc_url)
+
+        if not content:
+            print("错误: 获取订阅清单内容为空")
+            sys.exit(1)
 
         reader.parse_subscription(args.doc_url or "", content)
 
     # 获取每日文章
-    result = reader.get_daily_articles(args.date, args.source_id)
+    try:
+        result = reader.get_daily_articles(args.date, args.source_id)
+    except Exception as e:
+        print(f"错误: 获取每日文章失败: {e}")
+        sys.exit(1)
 
     # 输出结果
     if args.json:
@@ -130,9 +161,9 @@ def get_daily_articles(args):
         if articles:
             print("\n文章列表:")
             for item in articles:
-                article = item['article']
-                score = item['quality_score']
-                print(f"- [{score['level']}] {article['title']} (评分: {score['overall']})")
+                article = item.get('article', {})
+                score = item.get('quality_score', {})
+                print(f"- [{score.get('level', 'N/A')}] {article.get('title', '无标题')} (评分: {score.get('overall', 'N/A')})")
 
 
 def main():
@@ -167,15 +198,18 @@ def main():
     ps_parser = subparsers.add_parser('parse-subscription', help='解析订阅清单')
     ps_parser.add_argument('--doc-url', help='订阅清单文档 URL')
     ps_parser.add_argument('--content', help='订阅清单内容文件')
+    ps_parser.set_defaults(func=parse_subscription)
 
     # fetch-content 命令
     fc_parser = subparsers.add_parser('fetch-content', help='获取信源内容')
     fc_parser.add_argument('--source-id', required=True, help='信源 ID')
     fc_parser.add_argument('--date', required=True, help='日期 (YYYY-MM-DD)')
+    fc_parser.set_defaults(func=fetch_content)
 
     # score-article 命令
     sa_parser = subparsers.add_parser('score-article', help='评分文章')
     sa_parser.add_argument('--article-path', required=True, help='文章 JSON 文件路径')
+    sa_parser.set_defaults(func=score_article)
 
     # get-daily-articles 命令
     gda_parser = subparsers.add_parser('get-daily-articles', help='获取每日文章列表')
@@ -183,25 +217,15 @@ def main():
     gda_parser.add_argument('--source-id', help='信源 ID (可选)')
     gda_parser.add_argument('--doc-url', help='订阅清单文档 URL')
     gda_parser.add_argument('--content', help='订阅清单内容文件')
+    gda_parser.set_defaults(func=get_daily_articles)
 
     args = parser.parse_args()
 
-    if not args.command:
+    if not hasattr(args, 'func'):
         parser.print_help()
         sys.exit(1)
 
-    # 执行对应命令
-    if args.command == 'parse-subscription':
-        parse_subscription(args)
-    elif args.command == 'fetch-content':
-        fetch_content(args)
-    elif args.command == 'score-article':
-        score_article(args)
-    elif args.command == 'get-daily-articles':
-        get_daily_articles(args)
-    else:
-        parser.print_help()
-        sys.exit(1)
+    args.func(args)
 
 
 if __name__ == '__main__':
