@@ -9,7 +9,7 @@
 每次操作前，必须执行权限检查：
 
 ```
-1. 读取 ~/OV-AIM/obsidian-rules.yaml
+1. 读取 ~/ObsidianVault/AI-Memory/obsidian-rules.yaml
 2. 确认目标路径的权限类型：
    - readonly → 拒绝写入
    - readwrite → 允许
@@ -30,7 +30,7 @@
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ 步骤 2: 准备临时文件                                          │
-│ - 在 workspace 中创建临时目录: ~/OV-AIM/temp/obsidian/       │
+│ - 在 workspace 中创建临时目录: ~/ObsidianVault/AI-Memory/temp/obsidian/       │
 │ - 写入内容到临时文件                                          │
 └─────────────────────────────────────────────────────────────┘
                               ↓
@@ -189,7 +189,7 @@
 AI:
 1. 检查: 0-Inbox/Session-Logs/ 在 readwrite 列表 ✓
 2. 命名: 2026-03-25-记忆系统讨论.md (符合约定)
-3. 临时文件: ~/OV-AIM/temp/obsidian/session-temp.md
+3. 临时文件: ~/ObsidianVault/AI-Memory/temp/obsidian/session-temp.md
 4. 展示内容摘要
 5. 等待确认
 6. 写入并清理临时文件
@@ -239,7 +239,7 @@ obsidian-cli move "旧路径/文件.md" "新路径/文件.md"
 cp ~/ObsidianVault/AI-Memory/文件.md ~/ObsidianVault/AI-Memory/文件.md.bak
 
 # 对比差异
-diff ~/OV-AIM/temp/obsidian/temp.md ~/ObsidianVault/AI-Memory/目标.md
+diff ~/ObsidianVault/AI-Memory/temp/obsidian/temp.md ~/ObsidianVault/AI-Memory/目标.md
 ```
 
 ## 十、工作流程图示

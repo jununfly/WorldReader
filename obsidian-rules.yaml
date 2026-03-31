@@ -18,6 +18,7 @@ permissions:
     - "0-Inbox/**"               # 收件箱 - 对话日志、新闻简报
     - "1-Topics/**"              # 主题知识库
     - "4-Periodic/**"            # 周期性笔记
+    - "6-Projects/**"            # 项目知识库
     - "CLAUDE.md"                # AI 记忆配置
 
   # 受限操作（需要用户明确授权）
@@ -56,6 +57,7 @@ directory_structure:
     subdirs:
       - "Monthly"
   - name: "5-Personal"
+  - name: "6-Projects"
 
 # 安全检查清单
 safety_checks:
