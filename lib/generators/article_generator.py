@@ -85,7 +85,7 @@ class ArticleGenerator:
 
     def _format_content(self, content: Dict, source: Dict) -> str:
         """
-        格式化文章内容为 Markdown
+        格式化文章内容为 Markdown（确保始终标注来源）
 
         Args:
             content: 内容字典
@@ -96,10 +96,13 @@ class ArticleGenerator:
         """
         title = content.get('title', '')
         body = content.get('content', '')
-        author = content.get('author', '')
-        url = content.get('url', '')
+        
+        # 确保来源信息完整
+        author = content.get('author') or source.get('author') or '未知'
+        url = content.get('url') or source.get('url', '')
         tags = content.get('tags', [])
         published_at = content.get('published_at', '')
+        source_name = source.get('name', '未知')
 
         # 构建 Markdown
         md_lines = []
@@ -108,12 +111,13 @@ class ArticleGenerator:
         if title:
             md_lines.append(f"# {title}\n")
 
-        # 元数据
+        # 元数据 - 始终包含来源信息
         md_lines.append("---")
-        md_lines.append(f"**来源**: {source.get('name', '未知')}")
-        md_lines.append(f"**作者**: {author or '未知'}")
+        md_lines.append(f"**来源**: {source_name}")
+        md_lines.append(f"**作者**: {author}")
         md_lines.append(f"**发布时间**: {published_at or '未知'}")
-        md_lines.append(f"**原文链接**: {url}")
+        if url:
+            md_lines.append(f"**原文链接**: {url}")
         if tags:
             md_lines.append(f"**标签**: {', '.join(tags)}")
         md_lines.append("---\n")
