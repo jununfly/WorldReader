@@ -257,8 +257,6 @@ class SubscriptionParser:
             "wechat": ["公众号", "微信"],
             "website": ["网站", "博客", "Blog"],
             "github": ["GitHub", "仓库", "repository"],
-            "youtube": ["YouTube", "油管"],
-            "bilibili": ["B站", "Bilibili"],
         }
 
         combined = f"{name} {description}".lower()

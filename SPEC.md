@@ -4,7 +4,7 @@
 
 **Name**: WorldReader
 **Version**: 1.0.0
-**Purpose**: 智能阅读各种文章、视频、代码仓库等内容，生成知识库文章并进行质量评分
+**Purpose**: 智能阅读各种文章、代码仓库等内容，生成知识库文章并进行质量评分
 
 ## 功能描述
 
@@ -52,8 +52,6 @@
 - `wechat`: 微信公众号
 - `website`: 网站/博客
 - `github`: GitHub仓库
-- `youtube`: YouTube视频
-- `bilibili`: B站视频
 - `rss`: RSS订阅
 - `custom`: 自定义信源
 
@@ -71,7 +69,6 @@
    - 微信公众号: 通过 RSSHub API 获取文章列表
    - 网站/博客: 通过 RSS 或网页抓取
    - GitHub: 通过 GitHub API 获取仓库动态
-   - YouTube/B站: 通过对应平台的 API 获取视频信息
 3. 过滤指定日期的内容
 4. 生成知识库文章（Markdown格式）
    - 提取标题、正文、关键信息
@@ -519,7 +516,6 @@ dimensions:
 
 ## 待实现功能
 
-- [ ] 支持 YouTube/B站视频内容获取
 - [ ] 支持代码仓库README解析
 - [ ] 支持多语言内容处理
 - [ ] 支持内容去重和相似度检测

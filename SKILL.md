@@ -1,6 +1,6 @@
 ---
 name: worldreader
-description: 智能阅读各种文章、视频、代码仓库等内容，生成知识库文章并进行质量评分
+description: 智能阅读各种文章、代码仓库等内容，生成知识库文章并进行质量评分
 version: 1.0.0
 metadata:
   {
