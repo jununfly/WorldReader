@@ -48,21 +48,25 @@ class ObsidianSaver:
             if published_at:
                 try:
                     pub_date = datetime.fromisoformat(published_at.replace('Z', '+00:00'))
+                    year_str = pub_date.strftime('%Y')
+                    month_str = pub_date.strftime('%m')
                     date_str = pub_date.strftime('%Y-%m-%d')
-                    month_str = pub_date.strftime('%Y-%m')
                 except:
+                    year_str = datetime.now().strftime('%Y')
+                    month_str = datetime.now().strftime('%m')
                     date_str = datetime.now().strftime('%Y-%m-%d')
-                    month_str = datetime.now().strftime('%Y-%m')
             else:
+                year_str = datetime.now().strftime('%Y')
+                month_str = datetime.now().strftime('%m')
                 date_str = datetime.now().strftime('%Y-%m-%d')
-                month_str = datetime.now().strftime('%Y-%m')
 
-            # 构造目录路径：4-Periodic/2026-03/2026-03-31/
+            # 构造目录路径：4-Periodic/Daily/YYYY/MM/
             dir_path = os.path.join(
                 self.vault_path,
                 '4-Periodic',
-                month_str,
-                date_str
+                'Daily',
+                year_str,
+                month_str
             )
 
             # 确保目录存在
