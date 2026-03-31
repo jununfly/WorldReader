@@ -9,6 +9,7 @@ import os
 import argparse
 import json
 from datetime import datetime
+from typing import Dict
 
 # 添加 lib 目录到路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
@@ -85,8 +86,20 @@ def batch_process(
         print(f"\n[{i}/{len(sources)}] 处理信源: {source.get('name', '未知')}")
         
         try:
+            # 直接使用信源信息获取内容
+            source_type = source.get('type', 'website')
+            fetcher = reader.fetchers.get(source_type)
+            
+            if not fetcher:
+                print(f"  ⚠️  不支持的信源类型: {source_type}")
+                stats['errors'].append({
+                    'source': source.get('name'),
+                    'error': f'不支持的信源类型: {source_type}'
+                })
+                continue
+            
             # 获取内容
-            articles = reader.fetch_content(source.get('id'), date)
+            articles = fetcher.fetch(source, date)
             
             if not articles:
                 print(f"  ⚠️  未获取到文章")
@@ -203,8 +216,14 @@ def main():
     # 加载信源
     if args.sources:
         if os.path.exists(args.sources):
-            with open(args.sources, 'r', encoding='utf-8') as f:
-                sources = json.load(f)
+            # 根据文件扩展名判断格式
+            if args.sources.endswith('.yaml') or args.sources.endswith('.yml'):
+                with open(args.sources, 'r', encoding='utf-8') as f:
+                    data = yaml.safe_load(f)
+                    sources = data.get('sources', [])
+            else:
+                with open(args.sources, 'r', encoding='utf-8') as f:
+                    sources = json.load(f)
         else:
             try:
                 sources = json.loads(args.sources)

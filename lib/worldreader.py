@@ -12,6 +12,7 @@ try:
     from .fetchers.wechat_fetcher import WeChatFetcher
     from .fetchers.website_fetcher import WebsiteFetcher
     from .fetchers.github_fetcher import GitHubFetcher
+    from .fetchers.baai_fetcher import BaaFetcher
     from .generators.article_generator import ArticleGenerator
     from .scorers.quality_scorer import QualityScorer
     from .utils import (
@@ -27,6 +28,7 @@ except ImportError:
     from fetchers.wechat_fetcher import WeChatFetcher
     from fetchers.website_fetcher import WebsiteFetcher
     from fetchers.github_fetcher import GitHubFetcher
+    from fetchers.baai_fetcher import BaaFetcher
     from generators.article_generator import ArticleGenerator
     from scorers.quality_scorer import QualityScorer
     from utils import (
@@ -82,6 +84,7 @@ class WorldReader:
         self.fetchers['website'] = WebsiteFetcher(fetcher_config)
         self.fetchers['github'] = GitHubFetcher(fetcher_config)
         self.fetchers['rss'] = WebsiteFetcher(fetcher_config)  # RSS 使用网站获取器
+        self.fetchers['baai'] = BaaFetcher(fetcher_config)  # 智源社区
 
     def parse_subscription(self, subscription_doc_url: str, content: str = None) -> Dict:
         """
