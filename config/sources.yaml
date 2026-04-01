@@ -1,0 +1,42 @@
+# WorldReader 信源配置
+
+sources:
+  - id: source_baai_18854
+    name: 清华大学人工智能国际治理研究院
+    type: baai
+    url: https://hub.baai.ac.cn/users/18854
+    category: AI治理
+    tags: [AI治理, 清华大学, 政策研究]
+    enabled: true
+
+  - id: source_baai_100834
+    name: Google Brain
+    type: baai
+    url: https://hub.baai.ac.cn/users/100834
+    category: 技术研究
+    tags: [Google, AI研究, 深度学习]
+    enabled: true
+
+  - id: source_baai_74219
+    name: 极客公园
+    type: baai
+    url: https://hub.baai.ac.cn/users/74219
+    category: 科技媒体
+    tags: [科技, 创业, 互联网]
+    enabled: true
+
+  - id: source_baai_72070
+    name: 量子位
+    type: baai
+    url: https://hub.baai.ac.cn/users/72070
+    category: 科技媒体
+    tags: [AI, 科技, 前沿技术]
+    enabled: true
+
+  - id: source_baai_72033
+    name: 新智元
+    type: baai
+    url: https://hub.baai.ac.cn/users/72033
+    category: 科技媒体
+    tags: [AI, 科技, 前沿技术, 新智元]
+    enabled: true
