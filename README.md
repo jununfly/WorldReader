@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+# ClawTrade
+=======
 # WorldReader
 
 WorldReader - 智能知识库阅读器
@@ -72,3 +75,4 @@ worldreader/
 
 ## License
 MIT
+>>>>>>> 6599d9dcee7fb48fe604b1fbee302e087f1998d5
